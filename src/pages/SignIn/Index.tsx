@@ -59,7 +59,7 @@ const SignIn: React.FC = () => {
               }}
             />
     
-            <Button onPress={ () => {
+            <Button style={{flexDirection:"row", width: 300}} onPress={ () => {
               formRef.current?.submitForm();
             }}>Entrar</Button>
           </Form>
