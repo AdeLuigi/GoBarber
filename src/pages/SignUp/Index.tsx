@@ -1,5 +1,5 @@
 import React, {useRef} from 'react'
-import { Image, ScrollView } from 'react-native';
+import { Image, ScrollView, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import {Form} from '@unform/mobile'
@@ -19,6 +19,10 @@ const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+
+
   return(
     <>
       <ScrollView
@@ -33,9 +37,38 @@ const SignUp: React.FC = () => {
             onSubmit={(data) => {
               console.log(data)
             }}>
-            <Input name="name" icon="user" placeholder="Nome" />
-            <Input name="email" icon="mail" placeholder="E-mail" />
-            <Input name="password" icon="lock" placeholder="Senha"/>
+            <Input 
+              autoCapitalize="words" 
+              name="name" 
+              icon="user" 
+              placeholder="Nome"
+              returnKeyType="next" 
+              onSubmitEditing={() => {
+                emailInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={emailInputRef} 
+              autoCorrect={false} 
+              autoCapitalize="none" 
+              keyboardType="email-address" 
+              name="email" 
+              icon="mail" 
+              placeholder="E-mail" 
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                passwordInputRef.current?.focus();
+              }} 
+            />
+            <Input 
+              ref={passwordInputRef}
+              secureTextEntry 
+              name="password" 
+              icon="lock" 
+              placeholder="Senha"
+              returnKeyType="send"
+              onSubmitEditing={ () => formRef.current?.submitForm() }
+            />
             <Button onPress={ () => formRef.current?.submitForm() }>Entrar</Button>
           </Form>
         </Container>
